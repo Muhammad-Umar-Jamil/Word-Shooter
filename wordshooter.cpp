@@ -24,10 +24,14 @@ using namespace std;
 string * dictionary;
 int dictionarysize = 370099;
 #define KEY_ESC 27 // A
-int BubbleLetterNo[20][20];
+int BubbleLetterNo[10][15],counter_bubble=0;
+
 float Slope;
 float mx=0,my=0,counter=0;
-
+int row_counter=2,column_counter=15,timer=120,i_For_timer=0;
+int Drawing_alphabet_count=0;
+int Drawing_alphabet_data[8][20];
+int Bubble_Random[150];
 // 20,30,30
 const int bradius = 30; // ball radius in pixels...
 
@@ -248,54 +252,58 @@ void DisplayFunction() {
 	glClear(GL_COLOR_BUFFER_BIT); //Update the colors
 
 	//write your drawing commands here or call your drawing functions...
-	DrawAlphabet((alphabets)BubbleLetterNo[0][0], 10, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][1], 70, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][2], 130, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][3], 190, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][4], 250, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][5], 310, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][6], 370, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][7], 430, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][8], 490, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][9], 550, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][10], 610, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][11], 670, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][12], 730, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][13], 790, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[0][14], 850, height-(aheight)*1.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][0], 10, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][1], 70, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][2], 130, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][3], 190, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][4], 250, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][5], 310, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][6], 370, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][7], 430, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][8], 490, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][9], 550, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][10], 610, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][11], 670, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][12], 730, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][13], 790, height-(aheight)*2.5, awidth, aheight);
-	DrawAlphabet((alphabets)BubbleLetterNo[1][14], 850, height-(aheight)*2.5, awidth, aheight);
+	for(int i=0;i<10;i++){
+		for(int j=0;j<15;j++){
+			if(BubbleLetterNo[i][j]!=-1){
+				DrawAlphabet((alphabets)BubbleLetterNo[i][j], 10+60*j, height-(aheight)*(i+2), awidth, aheight);
+			}
+			
+		}
+	}
+	int slope123=0;
+	int temp_y=(my/60);
+	int temp_x=(mx+width/2 -30)/60;
 	
-
-
-
+			
+			if(BubbleLetterNo[8-temp_y][temp_x]==-1){
+				DrawAlphabet((alphabets)Bubble_Random[counter_bubble], width/2 - 30 + mx,my, awidth, aheight);
 	
-	DrawAlphabet((alphabets)BubbleLetterNo[1][14], width/2 - 30 + mx, (aheight)*0.1 + my, awidth, aheight);
+			}
+			else{
+				
+				if(counter!=0){
+					
+					
+				BubbleLetterNo[9-temp_y][temp_x]=Bubble_Random[counter_bubble];
+					
+						
+					
+				}
+				Slope=0;
+				mx=0;
+				my=0;
+				counter=0;
+
+			}
+		
+	
+	
+	
+	
 	
 	my=my+counter;
-	mx=mx+counter/Slope;
+	if(mx!=0){
+		mx=mx+counter/Slope;
+	}
 	if(mx>=415||mx<=-415){
-		Slope=Slope*-1;
+			Slope=Slope*-1;
 	}
 	
 	
 	DrawString(40, height - 20, width, height + 5, "Score " + Num2Str(score), colors[BLUE_VIOLET]);
 	DrawString(width / 2 - 30, height - 25, width, height,
-		"Time Left:" + Num2Str(2) + " secs", colors[RED]);
-
+		"Time Left:" + Num2Str(timer) + " secs", colors[RED]);
+	
 	// #----------------- Write your code till here ----------------------------#
 	//DO NOT MODIFY THESE LINES
 	DrawShooter((width / 2) - 65, 0, bwidth, bheight);
@@ -376,7 +384,8 @@ void MouseClicked(int button, int state, int x, int y) {
 	if(NX!=0){
 		Slope = NY / NX;
 		mx=1;my=1;
-		counter=3;
+		counter=8;
+		Drawing_alphabet_count++;
 	}
 	else {
 		Slope=0;
@@ -417,27 +426,47 @@ void Timer(int m) {
 	
 	glutPostRedisplay();
 	glutTimerFunc(1000.0/FPS, Timer, 0);
-	
-}
+	i_For_timer++;
+	if(i_For_timer%10==0){
+		if(timer>0){
+		timer--;
+	}
+	else{
+		exit(0);
+	}
+}}
 
 /*
 * our gateway main function
 * */
 int main(int argc, char*argv[]) {
+	for(int i=0;i<10;i++){
+		for(int j=0;j<15;j++){
+			BubbleLetterNo[i][j]=-1;
+		}
+	}
+
 	srand(time(0));
-	for(int i=0;i<20;i++){
-		for(int j=0;j<20;j++){
+	for(int i=0;i<2;i++){
+		for(int j=0;j<15;j++){
 			BubbleLetterNo[i][j]= rand() % 26;
 		}
 	}
+	for(int i=0;i<150;i++){
+			Bubble_Random[i]= rand() % 26;
+		}
+	
 	InitRandomizer(); // seed the random number generator...
 
 	//Dictionary for matching the words. It contains the 370099 words.
 	dictionary = new string[dictionarysize]; 
 	ReadWords("words_alpha.txt", dictionary); // dictionary is an array of strings
 	//print first 5 words from the dictionary
-	for(int i=0; i < 5; ++i)
-		cout<< " word "<< i << " =" << dictionary[i] <<endl;
+	
+	
+	
+	
+	
 
 	//Write your code here for filling the canvas with different Alphabets. You can use the Getalphabet function for getting the random alphabets
 
@@ -461,7 +490,7 @@ int main(int argc, char*argv[]) {
 
 	//// This function tells the library to call our Timer function after 1000.0/FPS milliseconds...
 	glutTimerFunc(1000.0/FPS, Timer, 0);
-
+	
 	//// now handle the control to library and it will call our registered functions when
 	//// it deems necessary...
 
