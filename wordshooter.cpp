@@ -36,6 +36,7 @@ const int bradius = 30; // ball radius in pixels...
 
 int width = 930, height = 660;
 int byoffset = bradius;
+int S_C=0;
 
 int nxcells = (width - bradius) / (2 * bradius);
 int nycells = (height - byoffset /*- bradius*/) / (2 * bradius);
@@ -241,79 +242,163 @@ void DrawShooter(int sx, int sy, int cwidth = 60, int cheight = 60)
 /*
 * Main Canvas drawing function.
 * */
-void DisplayFunction() {
-	// set the background color using function glClearColor.
-	// to change the background play with the red, green and blue values below.
-	// Note that r, g and b values must be in the range [0,1] where 0 means dim red and 1 means pure red and so on.
-	//#if 0
+void DisplayFunction()
+{
+	
 	glClearColor(0.8627450980392157, 0.7686274509803922,
-		0.5803921568627451, 0.5); // Red==Green==Blue==1 --> White Colour
-	glClear(GL_COLOR_BUFFER_BIT); //Update the colors
+				 0.5803921568627451, 0.1); 
+	glClear(GL_COLOR_BUFFER_BIT);
 
-	//write your drawing commands here or call your drawing functions...
-	for(int i=0;i<10;i++){
-		for(int j=0;j<15;j++){
-			if(BubbleLetterNo[i][j]!=-1){
-				DrawAlphabet((alphabets)BubbleLetterNo[i][j], 10+60*j, height-(aheight)*(i+2), awidth, aheight);
+	BubbleLetterNo[0][0] == -1;
+	BubbleLetterNo[0][1] == -1;
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 15; j++)
+		{
+			if (BubbleLetterNo[i][j] != -1)
+			{
+				DrawAlphabet((alphabets)BubbleLetterNo[i][j], 10 + 60 * j, height - (aheight) * (i + 2), awidth, aheight);
 			}
-			
 		}
 	}
-	int slope123=0;
-	int temp_y=(my/60);
-	int temp_x=(mx+width/2 -30)/60;
-	
-			
-			if(BubbleLetterNo[8-temp_y][temp_x]==-1){
-				DrawAlphabet((alphabets)Bubble_Random[counter_bubble], width/2 - 30 + mx,my, awidth, aheight);
-	
-			}
-			else{
-				
-				if(counter!=0){
-					
-					
-				BubbleLetterNo[9-temp_y][temp_x]=Bubble_Random[counter_bubble];
-					
-						
-					
-				}
-				Slope=0;
-				mx=0;
-				my=0;
-				counter=0;
 
+	int slope123 = 0;
+	int temp_y = (my / 60);
+	int temp_x = (mx + width / 2 - 30) / 60;
+
+	DrawAlphabet((alphabets)Bubble_Random[counter_bubble + 1], 0, 0, awidth, aheight);
+
+	if (BubbleLetterNo[8 - temp_y][temp_x] == -1)
+	{
+		DrawAlphabet((alphabets)Bubble_Random[counter_bubble], width / 2 - 30 + mx, my, awidth, aheight);
+	}
+	else
+	{
+
+		if (counter != 0)
+		{
+
+			if (BubbleLetterNo[9 - temp_y][temp_x] != -1)
+			{
+				if (mx > 0)
+				{
+					if (S_C == 0)
+					{
+						BubbleLetterNo[9 - temp_y][temp_x - 1] = Bubble_Random[counter_bubble];
+						counter_bubble++;
+						S_C = 0;
+					
+					}
+					else
+					{
+						BubbleLetterNo[9 - temp_y][temp_x + 1] = Bubble_Random[counter_bubble];
+						counter_bubble++;
+						S_C = 0;
+						
+					}
+				}
+				else if (mx < 0)
+				{
+					if (S_C == 0)
+					{
+						BubbleLetterNo[9 - temp_y][temp_x + 1] = Bubble_Random[counter_bubble];
+						counter_bubble++;
+						S_C = 0;
+					
+					}
+					else
+					{
+						BubbleLetterNo[9 - temp_y][temp_x - 1] = Bubble_Random[counter_bubble];
+						counter_bubble++;
+						S_C = 0;
+					
+					}
+				}
 			}
-		
-	
-	
-	
-	
-	
-	my=my+counter;
-	if(mx!=0){
-		mx=mx+counter/Slope;
+			else
+			{
+				BubbleLetterNo[9 - temp_y][temp_x] = Bubble_Random[counter_bubble];
+				counter_bubble++;
+				S_C = 0;
+			
+			}
+		}
+		Slope = 0;
+		mx = 0;
+		my = 0;
+		counter = 0;
 	}
-	if(mx>=415||mx<=-415){
-			Slope=Slope*-1;
+
+	/*	else if (BubbleLetterNo[8 - temp_y][temp_x+1] != -1)
+		{
+			if (BubbleLetterNo[8 - temp_y][temp_x - 1] == -1)
+			{
+				DrawAlphabet((alphabets)Bubble_Random[counter_bubble], width / 2 - 30 + mx, my, awidth, aheight);
+			}
+			else
+			{
+
+				if (counter != 0)
+				{
+
+					BubbleLetterNo[9 - temp_y][temp_x-1] = Bubble_Random[counter_bubble];
+					counter_bubble++;
+					S_C = 0;
+				}
+				Slope = 0;
+				mx = 0;
+				my = 0;
+				counter = 0;
+			}
+		}
+		else
+		{
+			if ((BubbleLetterNo[8 - temp_y][temp_x] == -1) && BubbleLetterNo[8 - temp_y][temp_x + 1] == -1)
+			{
+				DrawAlphabet((alphabets)Bubble_Random[counter_bubble], width / 2 - 30 + mx, my, awidth, aheight);
+			}
+			else
+			{
+
+				if (counter != 0)
+				{
+
+					BubbleLetterNo[9 - temp_y][temp_x] = Bubble_Random[counter_bubble];
+					counter_bubble++;
+					S_C = 0;
+				}
+				Slope = 0;
+				mx = 0;
+				my = 0;
+				counter = 0;
+			}
+		}
+	*/
+
+	my += counter;
+
+	if (mx != 0)
+	{
+		mx = mx + counter / Slope;
 	}
-	
-	
+	if (mx >= 415 || mx <= -415)
+	{
+		Slope = Slope * -1;
+		S_C = 1;
+	}
+
 	DrawString(40, height - 20, width, height + 5, "Score " + Num2Str(score), colors[BLUE_VIOLET]);
 	DrawString(width / 2 - 30, height - 25, width, height,
-		"Time Left:" + Num2Str(timer) + " secs", colors[RED]);
-	
+			   "Time Left:" + Num2Str(timer) + " secs", colors[RED]);
+
 	// #----------------- Write your code till here ----------------------------#
-	//DO NOT MODIFY THESE LINES
+	// DO NOT MODIFY THESE LINES
 	DrawShooter((width / 2) - 65, 0, bwidth, bheight);
 	glutSwapBuffers();
-	//DO NOT MODIFY THESE LINES..
+	// DO NOT MODIFY THESE LINES..
 }
 
-/* Function sets canvas size (drawing area) in pixels...
-*  that is what dimensions (x and y) your game will have
-*  Note that the bottom-left coordinate has value (0,0) and top-right coordinate has value (width-1,height-1)
-* */
+
 void SetCanvasSize(int width, int height) {
 	/*glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -424,9 +509,9 @@ void PrintableKeys(unsigned char key, int x, int y) {
 void Timer(int m) {
 	
 	glutPostRedisplay();
-	glutTimerFunc(1000.0/FPS, Timer, 0);
+	glutTimerFunc(100.0/FPS, Timer, 0);
 	i_For_timer++;
-	if(i_For_timer%10==0){
+	if(i_For_timer%100==0){
 		if(timer>0){
 		timer--;
 	}
@@ -488,7 +573,7 @@ int main(int argc, char*argv[]) {
 	glutPassiveMotionFunc(MouseMoved); // Mouse
 
 	//// This function tells the library to call our Timer function after 1000.0/FPS milliseconds...
-	glutTimerFunc(1000.0/FPS, Timer, 0);
+	glutTimerFunc(100.0/FPS, Timer, 0);
 	
 	//// now handle the control to library and it will call our registered functions when
 	//// it deems necessary...
