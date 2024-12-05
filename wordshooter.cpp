@@ -30,7 +30,6 @@ float Slope;
 float mx=0,my=0,counter=0;
 int row_counter=2,column_counter=15,timer=120,i_For_timer=0;
 int Drawing_alphabet_count=0;
-int Drawing_alphabet_data[8][20];
 int Bubble_Random[150];
 // 20,30,30
 const int bradius = 30; // ball radius in pixels...
