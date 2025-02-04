@@ -23,6 +23,7 @@ using namespace std;
 
 string *dictionary;
 int dictionarysize = 369646;
+
 #define KEY_ESC 27 // A
 int BubbleLetterNo[10][15], counter_bubble = 0;
 
@@ -573,7 +574,7 @@ void Timer(int m)
 }
 void WORD_CHECKER()
 {
-	dictionary = new string[dictionarysize];
+	
 	ifstream file("words_alpha.txt");
 	ofstream outputFile;
 	outputFile.open("example.txt", ios::app);
@@ -776,7 +777,7 @@ int main(int argc, char *argv[])
 	InitRandomizer(); // seed the random number generator...
 
 	// Dictionary for matching the words. It contains the 370099 words.
-	dictionary = new string[dictionarysize];
+      
 	ReadWords("words_alpha.txt", dictionary); // dictionary is an array of strings
 	// print first 5 words from the dictionary
 

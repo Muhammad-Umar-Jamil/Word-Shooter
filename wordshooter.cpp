@@ -458,7 +458,7 @@ void Timer(int m)
 	glutPostRedisplay();
 	glutTimerFunc(100.0 / FPS, Timer, 0);
 
-	if (timer < 0|| !isexit)
+	if (timer > 0)
 	{
 		timer = timer - 0.01;
 	}
@@ -515,29 +515,29 @@ void WORD_CHECKER()
 		int lwl = 0;
 		int lwc = -1;
 
-		while (c < col)
+		while (c<col)
 		{
 			if (BubbleLetterNo[r][c] != -1)
 			{
-				for (int z = 0; z < col - c; z++)
+				for (int z=0;z<col-c;z++)
 				{
-					if (BubbleLetterNo[r][c + z] != -1)
+					if (BubbleLetterNo[r][c+z]!=-1)
 					{
-						currentWord[wordLength] = BubbleLetterNo[r][c + z];
+						currentWord[wordLength] = BubbleLetterNo[r][c+z];
 						wordLength++;
 
-						if (wordLength >= 3)
+						if (wordLength>=3)
 						{
 							string word = intArrayToString(currentWord, wordLength);
 
 							if (Word_in_Dict(word))
 							{
 
-								if (wordLength > lwl)
+								if (wordLength>lwl)
 								{
-									l_Word = word;
-									lwl = wordLength;
-									lwc = c;
+									l_Word=word;
+									lwl=wordLength;
+									lwc=c;
 								}
 							}
 						}
@@ -546,44 +546,44 @@ void WORD_CHECKER()
 						wordLength=0;
 					}
 				}
-				wordLength = 0;
+				wordLength=0;
 			}
 			else
 			{
-				wordLength = 0;
+				wordLength=0;
 			}
 			c++;
 		}
 
-		if (lwl > 0)
+		if (lwl>0)
 		{
 
-			outputFile << l_Word << endl;
+			outputFile<<l_Word<<endl;
 
-			for (int i = 0; i < lwl; i++)
+			for (int i=0;i<lwl;i++)
 			{
-				int k = lwc + i;
-				BubbleLetterNo[r][k] = -1;
+				int k=lwc+i;
+				BubbleLetterNo[r][k]=-1;
 				score++;
 			}
 		}
 	}
 
-	for (int c = 0; c < col; c++)
+	for (int c=0;c<col;c++)
 	{
 		int currentWord[15];
-		int wordLength = 0;
-		int r = 0;
+		int wordLength=0;
+		int r=0;
 
-		while (r < row)
+		while (r<row)
 		{
-			if (BubbleLetterNo[r][c] != -1)
+			if (BubbleLetterNo[r][c]!=-1)
 			{
-				for (int z = 0; z < row - r; z++)
+				for (int z=0;z<row-r;z++)
 				{
-					if (BubbleLetterNo[r + z][c] != -1)
+					if (BubbleLetterNo[r+z][c]!=-1)
 					{
-						currentWord[wordLength] = BubbleLetterNo[r + z][c];
+						currentWord[wordLength]=BubbleLetterNo[r+z][c];
 						wordLength++;
 
 						if (wordLength >= 3)
@@ -591,16 +591,16 @@ void WORD_CHECKER()
 							string word = intArrayToString(currentWord, wordLength);
 							if (Word_in_Dict(word))
 							{
-								outputFile << word << endl;
+								outputFile<<word<<endl;
 
-								for (int i = 0; i < wordLength; i++)
+								for (int i=0;i<wordLength;i++)
 								{
-									int k = r + z - wordLength + 1 + i;
-									BubbleLetterNo[k][c] = -1;
+									int k=r+z-wordLength+1+i;
+									BubbleLetterNo[k][c]=-1;
 									score++;
 								}
 
-								wordLength = 0;
+								wordLength=0;
 								break;
 							}
 						}
@@ -610,54 +610,54 @@ void WORD_CHECKER()
 						break;
 					}
 				}
-				wordLength = 0;
+				wordLength=0;
 			}
 			else
 			{
-				wordLength = 0;
+				wordLength=0;
 			}
 			r++;
 		}
 	}
-
-	for (int r = 0; r < row; r++)
+        for (int cs=0;cs<col;cs++){
+	for (int r=0;r<row;r++)
 	{
-		int c = 0;
-		int startRow = r;
+		int c=cs;
+		int startRow=r;
 		int currentWord[15];
-		int wordLength = 0;
+		int wordLength=0;
 
-		while (startRow < row && c < col)
+		while (startRow<row&&c<col)
 		{
-			if (BubbleLetterNo[startRow][c] != -1)
+			if (BubbleLetterNo[startRow][c]!=-1)
 			{
-				currentWord[wordLength] = BubbleLetterNo[startRow][c];
+				currentWord[wordLength]=BubbleLetterNo[startRow][c];
 				wordLength++;
 
-				if (wordLength >= 3)
+				if (wordLength>=3)
 				{
-					string word = intArrayToString(currentWord, wordLength);
+					string word=intArrayToString(currentWord, wordLength);
 					if (Word_in_Dict(word))
 					{
-						outputFile << word << endl;
+						outputFile<<word<<endl;
 
-						for (int i = 0; i < wordLength; i++)
+						for (int i=0;i<wordLength;i++)
 						{
-							int y = startRow - wordLength + 1 + i;
-							int z = c - wordLength + 1 + i;
+							int y = startRow-wordLength+1+i;
+							int z = c-wordLength+1+i;
 
 							BubbleLetterNo[y][z] = -1;
 							score++;
 						}
 
-						wordLength = 0;
+						wordLength=0;
 					}
 				}
 			}
 			else
 			{
 
-				wordLength = 0;
+				wordLength=0;
 			}
 
 			startRow++;
@@ -665,19 +665,22 @@ void WORD_CHECKER()
 		}
 		outputFile.close();
 	}
+	
+	}
 
-	for (int z1 = 0; z1 < 16; z1++)
+	for (int z1=0;z1<16;z1++)
 	{
-		if (BubbleLetterNo[7][z1] != -1)
+		if (BubbleLetterNo[7][z1]!=-1)
 		{
-			isexit = 1;
+			isexit=1;
 		}
 	}
 
-	if (counter_bubble == 149)
+	if (counter_bubble==149)
 	{
-		isexit = 1;
+		isexit=1;
 	}
+	
 }
 
 int main(int argc, char *argv[])
@@ -689,22 +692,22 @@ int main(int argc, char *argv[])
 	Mix_Music *bgmusic = Mix_LoadMUS("bgmusic.mp3");
 	Mix_PlayMusic(bgmusic, -1);
 
-	for (int i = 0; i < 10; i++)
+	for (int i=0;i<10;i++)
 	{
-		for (int j = 0; j < 15; j++)
+		for (int j=0;j<15;j++)
 		{
 			BubbleLetterNo[i][j] = -1;
 		}
 	}
 
 	
-	int checker = 0;
+	int checker=0;
 	do
 	{
 
-		for (int i = 0; i < 2; i++)
+		for (int i=0;i<2;i++)
 		{
-			for (int j = 0; j < 15; j++)
+			for (int j=0;j<15;j++)
 			{
 				if (BubbleLetterNo[i][j] == -1)
 				{
@@ -716,9 +719,9 @@ int main(int argc, char *argv[])
 		WORD_CHECKER();
 
 		checker = 0;
-		for (int k = 0; k < 2; k++)
+		for (int k=0;k<2;k++)
 		{
-			for (int l = 0; l < 15; l++)
+			for (int l=0;l<15;l++)
 			{
 				if (BubbleLetterNo[k][l] == -1)
 				{
@@ -727,17 +730,18 @@ int main(int argc, char *argv[])
 			}
 		}
 
-	} while (checker == 1);
+	} while (checker==1);
 
-	for (int i = 0; i < 150; i++)
+	for (int i=0;i<150;i++)
 	{
 		Bubble_Random[i] = GetAlphabet();
 	}
-	/*Bubble_Random[0]='t'-'a';
+	Bubble_Random[0]='t'-'a';
 	Bubble_Random[1]='a'-'a';
 	Bubble_Random[2]='k'-'a';
 	Bubble_Random[3]='e'-'a';
-	Bubble_Random[4]='n'-'a';*/
+	Bubble_Random[4]='n'-'a'; 
+	//Write heree to assign values manuallt to board
 	InitRandomizer();
 	dictionary = new string[dictionarysize];
 	ReadWords("words_alpha.txt", dictionary);
